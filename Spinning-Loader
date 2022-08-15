@@ -10,7 +10,11 @@ class PPOLoader: NSObject {
     
     public static func showLoadingView() {
         if (loadView == nil) {
-            loadView = UIView.init(frame: (UIApplication.shared.delegate?.window??.frame)!)
+            loadView = UIView.init(frame: UIApplication
+                .shared
+                .connectedScenes
+                .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+                .last!.frame)
             loadView.isOpaque = false
             loadView.backgroundColor = UIColor.clear
             
@@ -52,7 +56,11 @@ class PPOLoader: NSObject {
             }
             
             if(loadView.superview == nil) {
-                UIApplication.shared.delegate?.window??.addSubview(loadView)
+                UIApplication
+                    .shared
+                    .connectedScenes
+                    .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+                    .last!.addSubview(loadView)
             }
             
         }
